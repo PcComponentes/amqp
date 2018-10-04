@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Pccomponentes\Amqp\Builder;
 
 use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Wire\AMQPTable;
 
 class BindBuilder
 {
@@ -75,7 +76,7 @@ class BindBuilder
             $this->exchange,
             $this->routingKey,
             $this->noWait,
-            $this->arguments
+            new AMQPTable($this->arguments)
         );
     }
 

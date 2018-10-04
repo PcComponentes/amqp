@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Pccomponentes\Amqp\Builder;
 
 use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Wire\AMQPTable;
 
 class ExchangeBuilder
 {
@@ -129,7 +130,7 @@ class ExchangeBuilder
             $this->autoDelete,
             $this->internal,
             $this->noWait,
-            $this->arguments
+            new AMQPTable($this->arguments)
         );
     }
 

@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Pccomponentes\Amqp\Builder;
 
 use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Wire\AMQPTable;
 
 class BasicConsumeBuilder
 {
@@ -141,7 +142,7 @@ class BasicConsumeBuilder
             $this->noWait,
             $callback,
             null,
-            $this->arguments
+            new AMQPTable($this->arguments)
         );
     }
 

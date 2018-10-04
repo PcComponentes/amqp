@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Pccomponentes\Amqp\Builder;
 
 use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Wire\AMQPTable;
 
 class QueueBuilder
 {
@@ -196,7 +197,7 @@ class QueueBuilder
             $this->exclusive,
             $this->autoDelete,
             $this->noWait,
-            $this->arguments
+            new AMQPTable($this->arguments)
         );
     }
 

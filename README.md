@@ -10,7 +10,7 @@ Para la declaración de exchanges, colas y binds, disponemos de tres builders, q
 - ```namespace Pccomponentes\Amqp\Builder\QueueBuilder```
 - ```namespace Pccomponentes\Amqp\Builder\BindBuilder```
 
-Todos ellos tienen un método disponen de métodos para ir seteando sus distintas opciones.
+Todos ellos disponen de métodos para ir seteando sus distintas opciones.
 
 Para conocer qué opciones acepta cada builder, consulte:
 - [exchange_declare](http://www.rabbitmq.com/amqp-0-9-1-reference.html#exchange.declare)
@@ -55,7 +55,7 @@ La clase principal ```Publisher``` requiere de una instancia de ```PhpAmqpLib\Co
 
 La elección de a qué exchange enviar el mensaje, y la configuración del envío, se declara con la clase ```BasicPublishBuilder```, que es un atajo a ```basic_publish``` de la librería original.
 
-Por último, para facilitar la creación del mensaje ```PhpAmqpLib\Message\AMQPMessage```, se proporciona su correspondiente ```MessageBuilder```, donde podrsá configurar el ```content_type```, el ```delivery_mode```, y otra multitud de parámetros, a todos los mensajes que construya y envíe la clase ```Publisher```.
+Por último, para facilitar la creación del mensaje ```PhpAmqpLib\Message\AMQPMessage```, se proporciona su correspondiente ```MessageBuilder```, donde podrá configurar el ```content_type```, el ```delivery_mode```, y otra multitud de parámetros, a todos los mensajes que construya y envíe la clase ```Publisher```.
 
 Mas información:
 - [basic_publish](http://www.rabbitmq.com/amqp-0-9-1-reference.html#basic.publish)
@@ -96,7 +96,7 @@ Para consumir un mensaje en una cola, se proporcionan las siguientes clases:
 
 La clase principal ```Subscriber``` requiere de una instancia de ```PhpAmqpLib\Connection\AbstractConnection```, de ```BasicConsumeBuilder``` y de ```SubscriberCallback```, al que le enviará un mensaje de tipo ```SubscriberMessage```.
 
-la configuración de cómo consumir de una cola, se delegará a ```BasicConsumerBuilder```, que son atajos a los métodos de la librería original ```basic_qos``` y ```basic_consume```.
+La configuración de cómo consumir una cola, se delegará a ```BasicConsumerBuilder```, que son atajos a los métodos de la librería original ```basic_qos``` y ```basic_consume```.
 
 La interfaz ```SubscriberCallback``` será la que tu proyecto tenga que implementar, y programar allí las tareas que quieras ejecutar cuando recuperes un mensaje. Este mensaje será de tipo ```SubscriberMessage```, que simplemente es un wrapper de ```PhpAmqpLib\Message\AMQPMessage``` que viene con métodos para hacer un __ACK__, __NACK__ y __REJECT__ sobre el mensaje de manera simple. Además proporciona un método ```message``` para acceder a la clase original.
 

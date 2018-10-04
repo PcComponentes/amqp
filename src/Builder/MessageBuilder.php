@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Pccomponentes\Amqp\Builder;
 
 use PhpAmqpLib\Message\AMQPMessage;
+use PhpAmqpLib\Wire\AMQPTable;
 
 class MessageBuilder
 {
@@ -75,7 +76,7 @@ class MessageBuilder
 
     public function applicationHeaders(array $applicationHeaders): self
     {
-        return $this->property('application_headers', $applicationHeaders);
+        return $this->property('application_headers', new AMQPTable($applicationHeaders));
     }
 
     public function priority(int $priority): self
