@@ -8,10 +8,6 @@ use \Pccomponentes\Amqp\Builder\BindBuilder;
 use Pccomponentes\Amqp\Builder\BasicPublishBuilder;
 use Pccomponentes\Amqp\Builder\MessageBuilder;
 use Pccomponentes\Amqp\Publisher\Publisher;
-use Pccomponentes\Amqp\Messenger\PublisherMiddleware;
-use Pccomponentes\Amqp\Messenger\MessageSerializer;
-use Symfony\Component\Messenger\MessageBus;
-
 
 $connection = new AMQPStreamConnection('ampq-rabbitmq', 5672, 'guest', 'guest', 'my_vhost');
 
@@ -20,9 +16,10 @@ $queueBuilder = (new QueueBuilder('queue_example'))
     ->durable()
     ->noAutoDelete();
 
-$exchangeBuilder = (new ExchangeBuilder('exchange_example', ExchangeBuilder::TYPE_FANOUT))
+$exchangeBuilder = (new ExchangeBuilder('exchange_example', 'x-delayed-message'))
     ->durable()
-    ->noAutoDelete();
+    ->noAutoDelete()
+    ->argument('x-delayed-type', ExchangeBuilder::TYPE_FANOUT);
 
 $bindBuilder = new BindBuilder('queue_example', 'exchange_example', '');
 
@@ -38,23 +35,9 @@ $basicPublishBuilder = (new BasicPublishBuilder('exchange_example'))
 
 $messageBuilder = (new MessageBuilder())
     ->contentTypeJson()
-    ->deliveryModePersistent();
+    ->deliveryModePersistent()
+    ->applicationHeaders(['x-delay' => 15000]);
 
 $publisher = new Publisher($connection, $basicPublishBuilder, $messageBuilder);
-$messageSerializer = new class implements MessageSerializer
-{
-    public function serialize($message): string
-    {
-        return \json_encode($message);
-    }
-
-    public function routingKey($message): string
-    {
-        return $message->topic;
-    }
-};
-$publisherMiddleware = new PublisherMiddleware($publisher, $messageSerializer);
-
-$messageBus = new MessageBus([$publisherMiddleware]);
-$message = \json_decode(\json_encode(['body' => 'body example', 'topic' => 'topic_example']));
-$messageBus->dispatch($message);
+$publisher->send('{"message" : "example"}', 'example');
+$publisher->close();

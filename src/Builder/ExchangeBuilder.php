@@ -136,19 +136,10 @@ class ExchangeBuilder
 
     private function setType(string $type): self
     {
-        $this->assertType($type);
         $this->type = $type;
         return $this;
     }
-
-    private function assertType(string $type): void
-    {
-        $isValid = \in_array($type, [self::TYPE_HEADERS, self::TYPE_FANOUT, self::TYPE_TOPIC, self::TYPE_DIRECT], true);
-        if (false === $isValid) {
-            throw new \InvalidArgumentException('Invalid exchange type');
-        }
-    }
-
+    
     private function setArgument(string $name, $value): self
     {
         $this->arguments[$name] = $value;
