@@ -45,6 +45,6 @@ class SubscriberMessage
 
     public function deliveryTag(): string
     {
-        return $this->message()->delivery_info['delivery_tag'];
+        return (string) $this->message()->delivery_info['delivery_tag'];
     }
 }
